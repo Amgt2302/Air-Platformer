@@ -1,0 +1,196 @@
+/*Game Page*/
+#player {
+    position: absolute;
+    font-size: 50px;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+.enemy {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#gameContainer {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#world {
+    width: 10000px;
+    height: 1000px;
+}
+
+
+/*wood bridge for transition*/
+.platform-transition {
+    /* Styles de base que vous aviez déjà */
+    position: absolute;
+    width: 100px;
+    height: 20px;
+    border: solid rgb(100, 60, 0) 3px;
+    border-radius: 10px;
+    background-color: rgb(230, 180, 120);
+    /* Couleur de fond (un beige/brun clair) */
+    background-image: repeating-linear-gradient(45deg,
+            rgb(100, 60, 0),
+            rgb(100, 60, 0) 2px,
+            transparent 2px,
+            transparent 8px);
+}
+
+
+/* --- Default World --- */
+.platform-sky {
+    position: absolute;
+    width: 100px;
+    height: 20px;
+    background: linear-gradient(0deg, rgb(231, 231, 231) 50%, rgb(160, 225, 230) 50%);
+    border-radius: 10px;
+}
+
+.platform-dirt {
+    position: absolute;
+    width: 100px;
+    height: 20px;
+    background: linear-gradient(0deg, rgb(75, 40, 10) 50%, rgb(50, 105, 5) 50%);
+    border-radius: 10px;
+}
+
+.platform-rock {
+    position: absolute;
+    width: 100px;
+    height: 20px;
+    background: linear-gradient(0deg, rgb(65, 65, 65) 50%, rgb(60, 60, 60) 50%);
+    border-radius: 10px;
+}
+
+
+/* --- Ice World --- */
+.platform-dirtSnow {
+    position: absolute;
+    width: 100px;
+    height: 20px;
+    background: linear-gradient(0deg, rgb(80, 50, 5) 50%, rgb(231, 231, 231) 50%);
+    border-radius: 10px;
+}
+
+.platform-snow {
+    position: absolute;
+    width: 100px;
+    height: 20px;
+    background: linear-gradient(0deg, rgb(220, 235, 240) 50%, rgb(255, 255, 255) 50%);
+    border-radius: 10px;
+}
+
+.plateform-skyIce {
+    position: absolute;
+    width: 100px;
+    height: 20px;
+    background: linear-gradient(0deg, rgb(155, 190, 255) 50%, rgb(170, 210, 240) 50%);
+    border-radius: 10px;
+}
+
+
+/* --- Lava World --- */
+.platform-cinder {
+    position: absolute;
+    width: 100px;
+    height: 20px;
+    background: linear-gradient(0deg, rgb(50, 45, 45) 50%, rgb(70, 65, 65) 50%);
+    border-radius: 10px;
+}
+
+.platform-lava {
+    position: absolute;
+    width: 100px;
+    height: 20px;
+    background: linear-gradient(0deg, rgb(230, 80, 0) 50%, rgb(255, 170, 0) 50%);
+    border-radius: 10px;
+    box-shadow: 0 0 5px orangered;
+}
+
+.platform-skyAsh {
+    position: absolute;
+    width: 100px;
+    height: 20px;
+    background: linear-gradient(0deg, rgb(120, 50, 40) 50%, rgb(80, 70, 70) 50%);
+    border-radius: 10px;
+}
+
+
+/* --- Candy World --- */
+.platform-licorice {
+    position: absolute;
+    width: 100px;
+    height: 20px;
+    background: linear-gradient(0deg, rgb(10, 10, 10) 50%, rgb(40, 40, 40) 50%);
+    border-radius: 10px;
+}
+
+.platform-sugar {
+    position: absolute;
+    width: 100px;
+    height: 20px;
+    background: linear-gradient(0deg, rgb(210, 180, 140) 50%, rgb(245, 222, 179) 50%);
+    border-radius: 10px;
+}
+
+.platform-cottonCandy {
+    position: absolute;
+    width: 100px;
+    height: 20px;
+    background: linear-gradient(0deg, rgb(255, 215, 220) 50%, rgb(255, 182, 193) 50%);
+    border-radius: 10px;
+}
+
+/* --- END World --- */
+
+.platform-End {
+    position: absolute;
+    width: 100px;
+    height: 20px;
+    background: repeating-linear-gradient(45deg,
+            black 0,
+            black 5px,
+            white 5px,
+            white 10px);
+    border-radius: 10px;
+}
+
+/* Game Over Menu */
+#Menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    display: none;
+    z-index: 1000;
+}
+
+#Menu button {
+    background: #0066ff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#Menu button:hover {
+    background: #0030cc;
+}

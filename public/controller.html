@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="stylesheet" href="/Air/public/style.css" />
+    <link rel="icon" href="/Air/public/asset/icon/manette.png" />
+    <title>Controller</title>
+</head>
+<body>
+    <!-- Simple Controller -->
+    <div id="simple" class="button-container">
+        <button id="jump">•</button>
+        <button id="left">←</button>
+        <button id="right">→</button>
+    </div>
+
+    <!-- Nes Controller -->
+    <div id="nes" class="button-container" style="display: none;">
+        <button id="up">↑</button>
+        <button id="left">←</button>
+        <button id="right">→</button>
+        <button id="down">↓</button>
+        <button id="jump">•</button> <!-- Ce bouton sera placé à droite -->
+    </div>
+
+    <!-- Cross Controller -->
+    <div id="cross" class="button-container" style="display: none;">
+        <button id="up">↑</button>
+        <button id="left">←</button>
+        <button id="jump">•</button>
+        <button id="right">→</button>
+        <button id="down">↓</button>
+    </div>
+</body>
+    <script src="/Air/socket.io/socket.io.js"></script>
+    <script src="/Air/public/JS/controller.js"></script>
+    <script>
+        let savedController = localStorage.getItem('controllerType');
+
+        if (!savedController) savedController = 'simple';
+        const layouts = ['simple', 'nes', 'cross'];
+
+        layouts.forEach(id => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.style.display = (id === savedController) ? '' : 'none';
+        });
+    </script>
+</html>

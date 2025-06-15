@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="stylesheet" href="/Air/public/style.css" />
+    <link rel="icon" href="/Air/public/asset/icon/game.png" />
+    <title>Game</title>
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="Menu">
+            <p>Well Done, you win 😎</p>
+            <a href="/Air">⌂</a>
+            <button onclick="location.reload()">Restart !</button>
+        </div>
+        <div id="world">
+            <div id="player">🐸</div><!-- and why not a unicorn !?🦄-->
+    </div>
+  </div>
+</body>
+    <script src="/Air/socket.io/socket.io.js"></script>
+    <script src="/Air/public/JS/game.js" defer></script>
+    <script>
+        const savedEmoji = localStorage.getItem('playerEmoji') || '🐸';
+        if (!savedEmoji) savedEmoji = '🐸';
+        document.getElementById('player').textContent = savedEmoji;
+
+            const savedWorldType = localStorage.getItem('worldSelection') || 'default';
+    </script>
+</html>

@@ -1,0 +1,202 @@
+@import url("/Air/public/styles/styleController.css");
+@import url("/Air/public/styles/styleGame.css");
+
+* {
+    user-select: none;
+    touch-action: none;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    touch-action: none;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+header {
+    margin: auto;
+}
+
+.Logo {
+    font-size: 70px;
+    color: #00CFFF;
+    position: relative;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: clamp(100%, 30vw + 5%, 30%);
+    height: clamp(50%, 70%, 100%);
+    max-width: 896px;
+    margin: auto;
+}
+
+.slider {
+    display: flex;
+    position: relative;
+    transition: transform 0.4s ease;
+    border-radius: 16px;
+    width: 80%;
+    height: 80%;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.5);
+    border: solid black 3px;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+p {
+    font-size: 18px;
+    color: white;
+}
+
+#qrController,
+    #qrGame {
+        border: solid white 3px;
+}
+
+a {
+    font-size: 40px;
+    text-decoration: none;
+}
+
+.arrow {
+    font-size: 30px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(95, 15, 130, 0.6);
+    padding: 2%;
+    border-radius: 16px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.arrow:first-of-type {
+    left: 0;
+}
+
+.arrow:last-of-type {
+    right: 0;
+}
+
+.settings-button {
+    position: absolute;
+    top: clamp(0.5rem, 2vh, 3rem);
+    left: clamp(0.5rem, 2vw, 4rem);
+    font-size: 25px;
+    text-decoration: none;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    border-radius: 12px;
+    z-index: 10;
+    color: white;
+    transition: background 0.3s ease;
+    box-sizing: border-box;
+}
+
+.settings-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/*Setting Page*/
+.box-setting {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    border-radius: 16px;
+    width: min(80%, 500px);
+    height: 80%;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: solid black 3px;
+}
+
+.box-setting label {
+    margin-bottom: 2%;
+    font-size: 20px;
+}
+
+input {
+    width: min(90%, 250px);
+    font-size: 20px;
+    text-align: center;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    outline: none;
+}
+
+hr {
+    width: min(90%, 300px);
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+select {
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    width: min(90%, 200px);
+    border-radius: 4px;
+}
+
+button {
+    padding: 0.5rem 1.2rem;
+    border-radius: 8px;
+    border: none;
+    background-color: #1abc9c;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #16a085;
+    transform: scale(1.05);
+}
+
+.box-setting a {
+    font-size: 50px;
+    font-weight: bold;
+    color: white;
+}
+
+
+
+/* Media Query */
+@media (max-width: 420px) {
+    .arrow {
+        font-size: 25px;
+    }
+    .Logo {
+        font-size: 60px;
+    }
+}
+
+@media (max-height: 600px) and (orientation: landscape) {
+    main {
+        height: 85%;
+    }
+    .Logo {
+        display: none;
+    }
+}

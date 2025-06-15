@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="/Air/public/style.css">
+    <link rel="icon" href="/Air/public/asset/icon/setting.png">
+    <title>Settings</title>
+</head>
+
+<body>
+    <div class="box-setting">
+        <label>Choose your emoji:</label>
+        <input type="text" id="playerEmoji" placeholder="Enter Emoji ..." maxlength="2" />
+        <hr>
+        <label for="controllerType">Select controller :</label>
+        <select id="controllerType">
+            <option value="simple">Simple [• -]</option>
+            <option value="nes">Nes [+ •]</option>
+            <option value="cross">Cross [+]</option>
+        </select>
+        <hr>
+        <label for="worldSelection">Select World:</label>
+        <select id="worldSelection">
+            <option value="default">Default (Rock, Dirt, Sky)</option>
+            <option value="ice">Ice (Snow, Ice, SkyIce)</option>
+            <option value="lava">Lava (Cinder, Lava, SkyAsh)</option>
+            <option value="candy">Candy (Licorice, Sugar, Cotton Candy)</option>
+        </select>
+        <hr>
+        <a href="/Air">⌂</a>
+    </div>
+</body>
+<script>
+    //emoji
+    const emoji = localStorage.getItem('playerEmoji');
+    
+    document.getElementById('playerEmoji').addEventListener('input', event => {
+        //console.log(event.target.value);
+        localStorage.setItem('playerEmoji', event.target.value);
+    });
+
+    //controller
+    document.getElementById('controllerType').addEventListener('change', event => {
+        //console.log(event.target.value);
+        localStorage.setItem('controllerType', event.target.value);
+    });
+
+    // world
+    const initialWorldSelection = localStorage.getItem('worldSelection');
+    if (initialWorldSelection) {
+        const worldSelectElement = document.getElementById('worldSelection');
+        if (worldSelectElement) {
+            worldSelectElement.value = initialWorldSelection;
+        }
+    }
+    document.getElementById('worldSelection').addEventListener('change', event => {
+        console.log(event.target.value);
+        localStorage.setItem('worldSelection', event.target.value);
+    });
+</script>
+
+</html>
