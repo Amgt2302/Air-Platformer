@@ -1,7 +1,7 @@
-# 🚀 AirPlatformer!
+# 🚀 AirPlatformer !
 
 Bienvenue sur **AirPlatformer**,  
-Un petit **platformer game**, **100%** web et **multi-device** ! Tout ça en temps réel grâce aux WebSockets.  
+😈 Un petit **platformer game**, 100% web et **multi-device** ! Tout ça en temps réel grâce aux WebSockets.  
 
 🕹️ Lance le jeu sur ton ordi, scanne le **QR code**, et c’est parti !
 
@@ -26,13 +26,13 @@ Passionné par :
 - Toujours prêt à apprendre  
 - J’ai récemment découvert les WebSockets  
 
-Ce projet est né de l’envie de mélanger ma passion avec cette découverte pour créer une expérience fun, interactive et accessible depuis n’importe quel appareil.
+Ce projet est né de l’envie de créer quelque chose à partir de cette découverte, pour offrir une expérience fun, interactive et accessible depuis n’importe quel appareil.
 
 ---
 
 ## 📦 Lancer le projet
 
-En cours de développement   
+En cours de Dev ! 
 . . .
 
 ---
