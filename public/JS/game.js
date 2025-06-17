@@ -326,6 +326,15 @@ socket.on('move', (dir) => {
         if (dir === 'down') playerY += moveSpeed;
         if (dir === 'left') playerX -= moveSpeed;
         if (dir === 'right') playerX += moveSpeed;
+        else if (dir === 'home') {
+            location.href='/Air';
+            //history.back();
+        }
+        else if (dir === 'setting') {location.href='/Air/setting';}
+        else if (dir === 'pause') {
+            gameLoop = !gameLoop;
+            if (gameLoop) {game();}
+        }
     }
 });
 

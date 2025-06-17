@@ -33,6 +33,9 @@ io.on('connection', (socket) => {
         if (moveStates.left) io.to(room).emit('move', 'left');
         if (moveStates.right) io.to(room).emit('move', 'right');
         if (moveStates.jump) io.to(room).emit('move', 'jump');
+        if (moveStates.home) io.to(room).emit('move', 'home');
+        if (moveStates.setting) io.to(room).emit('move', 'setting');
+        if (moveStates.pause) io.to(room).emit('move', 'pause');
     });
 });
 

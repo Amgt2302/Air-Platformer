@@ -1,6 +1,9 @@
-/* Controller Page */
 .button-container {
     position: fixed;
+    border: solid 3px black;
+    border-radius: 16px;
+    background: rgb(205, 207, 185);
+    padding: 1.5rem;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -8,12 +11,12 @@
     z-index: 100;
 }
 
+/* Style de base pour tous les boutons et liens */
 .button-container button {
     width: 100px;
     height: 100px;
     font-size: 22px;
     cursor: pointer;
-    background: #0288d1;
     color: white;
     border: none;
     border-radius: 8px;
@@ -21,8 +24,31 @@
     justify-content: center;
     align-items: center;
     transition: background 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
 }
 
+#setting, #pause{
+    width: 75px;
+    height: 25px;
+    background-color: #333;
+    color: white;
+    font-size: 22px;
+    border: 2px solid #111;
+    border-radius: 6px;
+    text-transform: uppercase;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+    margin-left: 10px;
+}
+
+#setting:hover, #pause:hover {  
+    background-color: #555;
+    transform: scale(1.02);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+}
+
+.button-container button {
+    background: #0288d1;
+}
 .button-container button:hover {
     background: #026aa7;
     transform: scale(1.05);
@@ -31,33 +57,77 @@
 .button-container button#jump {
     background-color: red;
 }
+.button-container button#jump:hover {
+    background-color: #d32f2f;
+    transform: scale(1.05);
+}
 
-/* ---------------- SIMPLE ---------------- */
+.button-container button#home {
+    background-color: #4CAF50;
+}
+.button-container button#home:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+
+/* --- SIMPLE --- */
 #simple {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 150px);
+    grid-template-rows: 100px 100px 100px;
     gap: 20px;
+    justify-items: center;
     align-items: center;
-    justify-content: center;
-}
-#simple #jump {
-    order: -1; /* le mettre à gauche */
-    margin-right: 30px;
 }
 
-/* ---------------- NES ---------------- */
+#simple #setting {
+    grid-row: 1;
+    grid-column: 2;
+    margin-left: 100px;
+}
+#simple #pause {
+    grid-row: 1;
+    grid-column: 2;
+    margin-right: 100px;
+}
+
+#simple #jump {
+    grid-row: 2;
+    grid-column: 1;
+}
+#simple #left {
+    grid-row: 2;
+    grid-column: 2;
+}
+#simple #right {
+    grid-row: 2;
+    grid-column: 3;
+}
+
+#simple #home {
+    grid-row: 3;
+    grid-column: 2;
+}
+
+/* --- NES --- */
 #nes {
     display: grid;
-    grid-template-columns: 70px 70px 70px 100px; /* 3 boutons + un espace pour jump */
-    grid-template-rows: 70px 70px 70px;
-    gap: 10px;
+    grid-template-columns: 100px 100px 100px /* Croix */
+                           30px /* Espace 1 */
+                           75px /* Setting */
+                           20px /* Espace 2 */
+                           75px /* Pause */
+                           50px /* Espace 3 */
+                           100px /* Jump */
+                           50px /* Espace 4 */
+                           100px; /* Home */
+    grid-template-rows: repeat(3, 100px);
+    gap: 0px;
     align-items: center;
     justify-items: center;
 }
 
-#nes #up {
-    grid-column: 2;
-    grid-row: 1;
-}
 #nes #left {
     grid-column: 1;
     grid-row: 2;
@@ -66,45 +136,31 @@
     grid-column: 3;
     grid-row: 2;
 }
+#nes #up {
+    grid-column: 2;
+    grid-row: 1;
+}
 #nes #down {
     grid-column: 2;
     grid-row: 3;
 }
+
 #nes #jump {
-    grid-column: 4;
+    grid-column: 9;
     grid-row: 2;
-    margin-left: 50px;
+}
+#nes #home {
+    grid-column: 11;
+    grid-row: 2;
 }
 
-/* ---------------- CROSS ---------------- */
-#cross {
-    display: grid;
-    grid-template-columns: 70px 70px 70px;
-    grid-template-rows: 70px 70px 70px;
-    gap: 10px;
-    align-items: center;
-    justify-items: center;
-    align-content: center;
-    justify-content: center;
-}
-
-#cross #up {
-    grid-column: 2;
-    grid-row: 1;
-}
-#cross #left {
-    grid-column: 1;
-    grid-row: 2;
-}
-#cross #jump {
-    grid-column: 2;
-    grid-row: 2;
-}
-#cross #right {
-    grid-column: 3;
-    grid-row: 2;
-}
-#cross #down {
-    grid-column: 2;
+#nes #setting {
+    grid-column: 5;
     grid-row: 3;
+    margin-right: 10px;
+}
+#nes #pause {
+    grid-column: 7;
+    grid-row: 3;
+    margin-left: 10px;
 }

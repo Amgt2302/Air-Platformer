@@ -31,6 +31,13 @@ document.querySelectorAll(".button-container button").forEach(btn => {
 
     if (!dir) return;
 
+    if (['pause', 'setting', 'home'].includes(dir)) {
+        btn.addEventListener('click', () => {
+            socket.emit('moveState', { [dir]: true });
+        });
+        return;
+    }
+
     if (!['left', 'right', 'jump'].includes(dir)) return; //['up', 'down', 'left', 'right', 'jump']
     btn.addEventListener('mousedown', () => startSendingMove(dir));
     btn.addEventListener('mouseup', () => stopSendingMove(dir));

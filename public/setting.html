@@ -18,7 +18,6 @@
         <select id="controllerType">
             <option value="simple">Simple [• -]</option>
             <option value="nes">Nes [+ •]</option>
-            <option value="cross">Cross [+]</option>
         </select>
         <hr>
         <label for="worldSelection">Select World:</label>
@@ -56,7 +55,7 @@
         }
     }
     document.getElementById('worldSelection').addEventListener('change', event => {
-        console.log(event.target.value);
+        //console.log(event.target.value);
         localStorage.setItem('worldSelection', event.target.value);
     });
 </script>
