@@ -154,13 +154,13 @@
     grid-row: 2;
 }
 
-#nes #setting {
+#nes #pause {
     grid-column: 5;
     grid-row: 3;
-    margin-right: 10px;
+    margin-left: 10px;
 }
-#nes #pause {
+#nes #setting {
     grid-column: 7;
     grid-row: 3;
-    margin-left: 10px;
+    margin-right: 10px;
 }

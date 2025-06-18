@@ -37,16 +37,4 @@
 </body>
     <script src="/Air/socket.io/socket.io.js"></script>
     <script src="/Air/public/JS/controller.js"></script>
-    <script>
-        let savedController = localStorage.getItem('controllerType');
-
-        if (!savedController) savedController = 'simple';
-        const layouts = ['simple', 'nes'];
-
-        layouts.forEach(id => {
-            const el = document.getElementById(id);
-            if (!el) return;
-            el.style.display = (id === savedController) ? '' : 'none';
-        });
-    </script>
 </html>

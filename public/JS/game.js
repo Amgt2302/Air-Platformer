@@ -80,8 +80,6 @@ function CheckPlayerCollisions() {
     }
 }
 
-
-
 //check collision with ennemies
 function checkEnemyCollisions() {
     const PLAYER_W = 40;
@@ -294,11 +292,9 @@ function generatePlatforms(options) { //HELP ME!! 1 fucking day to create this f
     endPlatform.className = 'platform-End';
     endPlatform.style.cssText = `
     left: ${currentX}px;
-    top: ${getLayerY(totalLayers - 1) - 20}px; /* position légèrement au-dessus du dernier layer */
-    `;
+    top: ${getLayerY(totalLayers - 1) - 20}px; /* position légèrement au-dessus du dernier layer */`;
     platforms.push(endPlatform);
     world.appendChild(endPlatform);
-
 }
 
 
@@ -312,11 +308,13 @@ function game() {
     updateEnemies();
     checkEnemyCollisions()
 
-    if (gameLoop){requestAnimationFrame(game);}
+    if (gameLoop) { requestAnimationFrame(game); }
 }
 
 
-//recive action server (controller)
+//recive action (server -> controller)
+socket.on('reloadGame', () => { location.reload(); });
+
 socket.on('move', (dir) => {
     if (dir === 'jump' && !isJumping) {
         isJumping = true;
@@ -327,16 +325,22 @@ socket.on('move', (dir) => {
         if (dir === 'left') playerX -= moveSpeed;
         if (dir === 'right') playerX += moveSpeed;
         else if (dir === 'home') {
-            location.href='/Air';
-            //history.back();
+            window.location.href = `/Air`;
         }
-        else if (dir === 'setting') {location.href='/Air/setting';}
         else if (dir === 'pause') {
             gameLoop = !gameLoop;
-            if (gameLoop) {game();}
+            if (gameLoop) { game(); }
         }
     }
 });
+
+
+//localstorage emoji/World
+const savedEmoji = localStorage.getItem('playerEmoji') || '🐸';
+if (!savedEmoji) savedEmoji = '🐸';
+document.getElementById('player').textContent = savedEmoji;
+
+const savedWorldType = localStorage.getItem('worldSelection') || 'default';
 
 
 //Easter egg

@@ -31,9 +31,22 @@ document.querySelectorAll(".button-container button").forEach(btn => {
 
     if (!dir) return;
 
-    if (['pause', 'setting', 'home'].includes(dir)) {
+    if (dir === 'setting') {
         btn.addEventListener('click', () => {
-            socket.emit('moveState', { [dir]: true });
+            window.location.href = `/Air/setting?room=${room}`;
+        });
+        return;
+    }
+    if (dir === 'home') {
+        btn.addEventListener('click', () => {
+            socket.emit('moveState', { home: true });
+            window.location.href = `/Air`;
+        });
+        return;
+    }
+    if (dir === 'pause') {
+        btn.addEventListener('click', () => {
+            socket.emit('moveState', { pause: true });
         });
         return;
     }
@@ -79,4 +92,17 @@ document.addEventListener('keyup', (e) => {
 
     keyState[dir] = false;
     stopSendingMove(dir);
+});
+
+
+//localstorage controllerType
+let savedController = localStorage.getItem('controllerType') || 'simple';
+
+if (!savedController) savedController = 'simple';
+const layouts = ['simple', 'nes'];
+
+layouts.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.style.display = (id === savedController) ? '' : 'none';
 });

@@ -21,7 +21,6 @@ body {
 header {
     margin: auto;
 }
-
 .Logo {
     font-size: 70px;
     color: #00CFFF;
@@ -37,7 +36,6 @@ main {
     max-width: 896px;
     margin: auto;
 }
-
 .slider {
     display: flex;
     position: relative;
@@ -49,7 +47,6 @@ main {
     background: rgba(0, 0, 0, 0.5);
     border: solid black 3px;
 }
-
 .box {
     display: flex;
     flex-direction: column;
@@ -57,23 +54,19 @@ main {
     align-items: center;
     width: 100%;
 }
-
 p {
     font-size: 18px;
     color: white;
 }
-
 #qrController,
     #qrGame {
         border: solid white 3px;
 }
-
 a {
     color: white;
     font-size: 40px;
     text-decoration: none;
 }
-
 .arrow {
     font-size: 30px;
     color: white;
@@ -86,11 +79,9 @@ a {
     cursor: pointer;
     user-select: none;
 }
-
 .arrow:first-of-type {
     left: 0;
 }
-
 .arrow:last-of-type {
     right: 0;
 }
@@ -109,7 +100,6 @@ a {
     transition: background 0.3s ease;
     box-sizing: border-box;
 }
-
 .settings-button:hover {
     background: rgba(255, 255, 255, 0.2);
 }
@@ -129,7 +119,6 @@ a {
     color: white;
     border: solid black 3px;
 }
-
 .box-setting label {
     margin-bottom: 2%;
     font-size: 20px;
@@ -161,6 +150,7 @@ select {
 
 button {
     padding: 0.5rem 1.2rem;
+    font-size: 25px;
     border-radius: 8px;
     border: none;
     background-color: #1abc9c;
@@ -169,7 +159,6 @@ button {
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
 button:hover {
     background-color: #16a085;
     transform: scale(1.05);
@@ -192,7 +181,6 @@ button:hover {
         font-size: 60px;
     }
 }
-
 @media (max-height: 600px) and (orientation: landscape) {
     main {
         height: 85%;

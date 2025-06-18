@@ -9,7 +9,6 @@ fastify.register(require('@fastify/static'), {
 });
 
 const io = new Server(fastify.server);
-
 const connectedClients = {}; // socket.id -> { page, room }
 
 io.on('connection', (socket) => {
@@ -21,7 +20,10 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         delete connectedClients[socket.id];
     });
-
+    socket.on('settingChanged', (room) => {
+        io.to(room).emit('reloadGame');
+    });
+    
     socket.on('moveState', (moveStates) => {
         const client = connectedClients[socket.id];
         if (!client || !client.room) return;
