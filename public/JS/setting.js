@@ -1,42 +1,68 @@
 const socket = io({ path: '/Air/socket.io' });
 const room = new URLSearchParams(window.location.search).get('room');
 
-//playerEmoji
-const emoji = localStorage.getItem('playerEmoji');
+const emojiInput = document.getElementById('playerEmoji');
+const controllerInput = document.getElementById('controllerType');
+const worldInput = document.getElementById('worldSelection');
 
-document.getElementById('playerEmoji').addEventListener('input', event => {
-    //console.log(event.target.value);
-    localStorage.setItem('playerEmoji', event.target.value);
-});
 
-//controllerType
-const initialControllerType = localStorage.getItem('controllerType');
-if (initialControllerType) {
-    const controllerSelectElement = document.getElementById('controllerType');
-    if (controllerSelectElement) {
-        controllerSelectElement.value = initialControllerType;
-    }
+// --- Player Emoji
+if (emojiInput) {
+    emojiInput.value = localStorage.getItem('playerEmoji') || '🐸';
+    emojiInput.addEventListener('input', e => {
+        const emoji = e.target.value;
+        localStorage.setItem('playerEmoji', emoji);
+        //sendSettingsUpdate();
+    });
 }
-document.getElementById('controllerType').addEventListener('change', event => {
-    //console.log(event.target.value);
-    localStorage.setItem('controllerType', event.target.value);
-});
 
-//WorldSelection
-const initialWorldSelection = localStorage.getItem('worldSelection');
-if (initialWorldSelection) {
-    const worldSelectElement = document.getElementById('worldSelection');
-    if (worldSelectElement) {
-        worldSelectElement.value = initialWorldSelection;
-    }
+// --- Controller Type
+if (controllerInput) {
+    controllerInput.value = localStorage.getItem('controllerType') || 'default';
+    controllerInput.addEventListener('change', e => {
+        const value = e.target.value;
+        localStorage.setItem('controllerType', value);
+    });
 }
-document.getElementById('worldSelection').addEventListener('change', event => {
-    //console.log(event.target.value);
-    localStorage.setItem('worldSelection', event.target.value);
-});
 
-//Reload after setting changed
-document.getElementById('BackBtn').addEventListener('click', event => {
-    history.back();
-    socket.emit('settingChanged', room);
-});
+// --- World Selection
+if (worldInput) {
+    worldInput.value = localStorage.getItem('worldSelection') || 'default';
+    worldInput.addEventListener('change', e => {
+        const value = e.target.value;
+        localStorage.setItem('worldSelection', value);
+    });
+}
+
+// --- Multi Mode
+if (multiMode) {
+    multiMode.addEventListener('change', () => {
+        const isMulti = multiMode.checked;
+
+        // Envoie l’état au serveur
+        socket.emit('multiMode', { room, isMulti });
+        sendSettingsUpdate();
+
+        console.log('multiMode sent:', isMulti);
+    });
+}
+
+//Send setting -> Server
+function sendSettingsUpdate() {
+    const settings = {
+        playerEmoji: emojiInput ? emojiInput.value : '🐸',
+        controllerType: controllerInput ? controllerInput.value : 'simple',
+        worldSelection: worldInput ? worldInput.value : 'default',
+        multiMode: multiMode ? multiMode.checked : false
+    };
+    socket.emit('settingChanged', { room, settings });
+}
+
+// Reload after click + send setting -> Server
+const backBtn = document.getElementById('BackBtn');
+if (backBtn) {
+    backBtn.addEventListener('click', () => {
+        sendSettingsUpdate();
+        history.back();
+    });
+}

@@ -2,9 +2,8 @@ const room = new URLSearchParams(window.location.search).get('room');
 const socket = io({ path: '/Air/socket.io' });
 socket.emit('pageConnect', { page: 'controller', room });
 
-
-
 const moveIntervals = {};
+
 
 function startSendingMove(direction) {
     if (moveIntervals[direction]) return;
@@ -85,7 +84,6 @@ document.addEventListener('keydown', (e) => {
     keyState[dir] = true;
     startSendingMove(dir);
 });
-
 document.addEventListener('keyup', (e) => {
     const dir = keyMap[e.key];
     if (!dir) return;
@@ -93,7 +91,6 @@ document.addEventListener('keyup', (e) => {
     keyState[dir] = false;
     stopSendingMove(dir);
 });
-
 
 //localstorage controllerType
 let savedController = localStorage.getItem('controllerType') || 'simple';

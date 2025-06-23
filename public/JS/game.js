@@ -22,7 +22,7 @@ const initialJumpVelocity = -15;
 const gravity = 1;
 
 //Enemies
-
+let nbEnemies = 10;
 let enemies = [];
 
 let cameraX = 0, cameraY = 0;
@@ -219,7 +219,7 @@ function renderPlayer() {
 
 /* ----- FUNCTIONS PLATEFORMER ----- */
 function generatePlatforms(options) { //HELP ME!! 1 fucking day to create this function that terrible XD
-    const { count, worldType = 'default' } = options;
+    const { count, worldType } = options;
     const world = document.getElementById('world');
     const player = document.getElementById('player');
 
@@ -313,7 +313,17 @@ function game() {
 
 
 //recive action (server -> controller)
-socket.on('reloadGame', () => { location.reload(); });
+socket.on('reloadGame', settings => {
+    console.log('Settings :', settings);
+    gameLoop = false;
+    const emoji = settings.playerEmoji || '🐸';
+    const controllerType = settings.controllerType || 'simple';
+    const world = settings.worldSelection || 'default';
+    
+    document.getElementById('player').textContent = emoji;
+    Start(world);
+    gameLoop = true;
+});
 
 socket.on('move', (dir) => {
     if (dir === 'jump' && !isJumping) {
@@ -333,14 +343,6 @@ socket.on('move', (dir) => {
         }
     }
 });
-
-
-//localstorage emoji/World
-const savedEmoji = localStorage.getItem('playerEmoji') || '🐸';
-if (!savedEmoji) savedEmoji = '🐸';
-document.getElementById('player').textContent = savedEmoji;
-
-const savedWorldType = localStorage.getItem('worldSelection') || 'default';
 
 
 //Easter egg
@@ -375,12 +377,17 @@ function toggleHitboxes(enabled = true) {
 
 
 //call function
+function Start(worldType) {
+    generatePlatforms({
+        count: 3,
+        worldType: worldType //savedWorldType
+        });
+    spawnEnemies(nbEnemies);
+}
+
+Start();
 game();
-generatePlatforms({
-    count: 5,
-    worldType: savedWorldType
-});
-spawnEnemies(10);
+
 
 //Debug Time let's GOOOO !!
-toggleHitboxes(true);
+toggleHitboxes(false);

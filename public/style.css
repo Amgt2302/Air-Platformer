@@ -181,11 +181,21 @@ button:hover {
         font-size: 60px;
     }
 }
-@media (max-height: 600px) and (orientation: landscape) {
+
+@media (max-height: 600px) or (orientation: landscape) {
     main {
         height: 85%;
     }
+
     .Logo {
         display: none;
+    }
+
+    hr {
+        margin-top: 2%;
+        margin-bottom: 2%;
+    }
+    button {
+        font-size: 20px;
     }
 }

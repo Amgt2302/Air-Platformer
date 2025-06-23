@@ -10,6 +10,7 @@ fastify.register(require('@fastify/static'), {
 
 const io = new Server(fastify.server);
 const connectedClients = {}; // socket.id -> { page, room }
+const roomSettings = {};
 
 io.on('connection', (socket) => {
     socket.on('pageConnect', ({ page, room }) => {
@@ -20,10 +21,11 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         delete connectedClients[socket.id];
     });
-    socket.on('settingChanged', (room) => {
-        io.to(room).emit('reloadGame');
+    socket.on('settingChanged', ({ room, settings }) => {
+        roomSettings[room] = settings;
+        io.to(room).emit('reloadGame', settings);
     });
-    
+
     socket.on('moveState', (moveStates) => {
         const client = connectedClients[socket.id];
         if (!client || !client.room) return;
@@ -53,7 +55,9 @@ fastify.get('/controller', (req, res) => {
 fastify.get('/setting', (req, res) => {
     res.type('text/html').send(fs.readFileSync('./public/setting.html'));
 });
-
+fastify.get('/multi', (req, res) => {
+    res.type('text/html').send(fs.readFileSync('./public/multi.html'));
+});
 
 fastify.listen({ port: 3000 }, () => {
     console.log('Server on http://localhost:3000');
