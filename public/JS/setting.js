@@ -12,7 +12,6 @@ if (emojiInput) {
     emojiInput.addEventListener('input', e => {
         const emoji = e.target.value;
         localStorage.setItem('playerEmoji', emoji);
-        //sendSettingsUpdate();
     });
 }
 
@@ -34,26 +33,12 @@ if (worldInput) {
     });
 }
 
-// --- Multi Mode
-if (multiMode) {
-    multiMode.addEventListener('change', () => {
-        const isMulti = multiMode.checked;
-
-        // Envoie l’état au serveur
-        socket.emit('multiMode', { room, isMulti });
-        sendSettingsUpdate();
-
-        console.log('multiMode sent:', isMulti);
-    });
-}
-
 //Send setting -> Server
 function sendSettingsUpdate() {
     const settings = {
         playerEmoji: emojiInput ? emojiInput.value : '🐸',
         controllerType: controllerInput ? controllerInput.value : 'simple',
         worldSelection: worldInput ? worldInput.value : 'default',
-        multiMode: multiMode ? multiMode.checked : false
     };
     socket.emit('settingChanged', { room, settings });
 }

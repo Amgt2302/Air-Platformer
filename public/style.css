@@ -182,11 +182,10 @@ button:hover {
     }
 }
 
-@media (max-height: 600px) or (orientation: landscape) {
+@media (max-height: 600px) and (orientation: landscape) {
     main {
         height: 85%;
     }
-
     .Logo {
         display: none;
     }

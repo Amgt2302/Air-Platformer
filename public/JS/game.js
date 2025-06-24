@@ -379,7 +379,7 @@ function toggleHitboxes(enabled = true) {
 //call function
 function Start(worldType) {
     generatePlatforms({
-        count: 3,
+        count: 25,
         worldType: worldType //savedWorldType
         });
     spawnEnemies(nbEnemies);
