@@ -4,17 +4,17 @@ socket.emit('pageConnect', { page: 'game', room });
 
 
 
-let gameLoop = true;
-const world = document.getElementById('world');
-
-//character movement
+//Player movement & position
 let player = document.getElementById('player');
 let playerX = 50;
 let playerY = 600;
+let checkpointX;
+let checkpointY;
 let verticalOffset = 0;
 const moveSpeed = 3.5;
 
-//character jump
+//Player jump
+let jumpCount = -1;
 let onGround = false;
 let isJumping = false;
 let velocityY = 0;
@@ -25,21 +25,23 @@ const gravity = 1;
 let nbEnemies = 10;
 let enemies = [];
 
+//Other
+let gameLoop = true;
 let cameraX = 0, cameraY = 0;
 let platforms = [];
 
+const world = document.getElementById('world');
 
 
-/* ----- FUNCTIONS Player and Ennemies----- */
+/* ----- FUNCTIONS Player and Enemies----- */
 
-//Jump and Gravity for player
+//Jump & Gravity for player
 function Physics() {
     playerY += velocityY;
     velocityY += gravity;
 }
 
-// Check collision and change player position
-let Win = false;
+// Check collision & change Player position
 
 function CheckPlayerCollisions() {
     onGround = false;
@@ -59,28 +61,53 @@ function CheckPlayerCollisions() {
             onGround = true;
 
             //Platform effect
+
+            let CheckPoint;
+            let platRemove;
+            const slideSpeed = 2;
+
+
             switch (true) {
-                case plat.classList.contains('platform-End') && !Win:
-                    console.log("🏁 win");
+                case plat.classList.contains('platform-End'):
+                    //console.log("🏁 win");
                     const Menu = document.getElementById("Menu");
                     Menu.style.display = 'flex';
-                    Win = true;
                     gameLoop = false;
                     break;
 
-                case plat.classList.contains('platform-transition') && !Win:
-                    console.log("Checkpoint ?? flemme de coder en vrai ");
+                case plat.classList.contains('platform-transition'):
+                    if (CheckPoint !== plat) {
+                        checkpointX = playerX;
+                        checkpointY = playerY;
+                        CheckPoint = plat;
+                        //console.log(`📍 Checkpoint: X ${checkpointX}, Y ${checkpointY}`);   
+                    }
+                    break;
+
+                case plat.classList.contains('platform-lava') || plat.classList.contains('platform-dirt'):
+                    playerX += slideSpeed;
+                    console.log(`🧊 Slide...`);
+                    break;
+
+                case plat.classList.contains('platform-rock'):
+                    platRemove = plat;
+
+                    if (jumpCount >= 2) {
+                        platRemove.remove();
+                        console.log(`❌ Remove : ${platRemove}`);
+                        platRemove = null;
+                        jumpCount = 0;
+                    }
                     break;
 
                 default:
-                    Win = false;
                     break;
             }
         }
     }
 }
 
-//check collision with ennemies
+//Check collision with Enemies
 function checkEnemyCollisions() {
     const PLAYER_W = 40;
     const PLAYER_H = 40;
@@ -109,9 +136,9 @@ function checkEnemyCollisions() {
             (playerY + PLAYER_H > enemyTop);
 
         if (Touch && !(VerticalTouch && touchingTop && falling)) {
-            console.log("T nul !!");
-            playerX = 50;
-            playerY = 600;
+            //console.log("Kill by Monster !");
+            playerX = checkpointX || 50;
+            playerY = checkpointY || 600;
             velocityY = 0;
             isJumping = false;
             break;
@@ -126,18 +153,20 @@ const maxFallTime = 90; // 60 = ~1 sec à 60fps
 function startFallTimer() {
     fallTimer++;
     if (fallTimer > maxFallTime) {
-        playerX = 50;
-        playerY = 600;
+        playerX = checkpointX || 50;
+        playerY = checkpointY || 600;
         velocityY = 0;
         isJumping = false;
         fallTimer = 0;
-        console.log("AAAaaaah !!");
+        //console.log("You Fall !");
     }
 }
 function stopFallTimer() {
     if (fallTimer > 0) {
         fallTimer = 0;
-        console.log("BAMmm");
+        //console.log("On the floor !");
+        jumpCount = onGround ? jumpCount + 1 : 0; //Detect jump & count
+        //console.log(`nb sauts : ${jumpCount}`);
     }
 }
 
@@ -145,7 +174,7 @@ function Fall() {
     (!onGround && velocityY > 0) ? startFallTimer() : stopFallTimer();
 }
 
-// camera follow player
+//Camera follow Player
 function Camera() {
     const screenCenterX = window.innerWidth / 2;
     const screenCenterY = window.innerHeight / 2;
@@ -154,38 +183,46 @@ function Camera() {
     world.style.transform = `translate(${-cameraX}px, ${-cameraY}px)`;
 }
 
-//spawn ennemies
+//Spawn Enemies
 function spawnEnemies(nbEnemies) {
-    enemies.forEach(enemy => enemy.remove());
+    enemies.forEach(e => e.remove());
     enemies = [];
 
-    let spawned = 0;
+    const minPlatIndex = 3; // ignore les 2 premières plateformes
+    const platformsAvailable = platforms.slice(minPlatIndex, platforms.length - 1);
 
-    for (let i = 1; i < platforms.length && spawned < nbEnemies; i++) {
-        if (Math.random() < 0.5) {
-            const plat = platforms[i];
-            const px = parseInt(plat.style.left);
-            const py = parseInt(plat.style.top);
+    for (let i = platformsAvailable.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [platformsAvailable[i], platformsAvailable[j]] = [platformsAvailable[j], platformsAvailable[i]];
+    }
 
-            const enemy = document.createElement('div');
-            enemy.className = 'enemy';
-            enemy.innerText = '👾'; //👾🧟🧸😈
-            enemy.style.left = `${px + 20}px`;
-            enemy.style.top = `${py - 40}px`;
+    for (let i = 0; i < Math.min(nbEnemies, platformsAvailable.length); i++) {
+        const plat = platformsAvailable[i];
+        const px = parseInt(plat.style.left);
+        const py = parseInt(plat.style.top);
 
-            const enemyWidth = 30;
-            enemy.dataset.minX = px;
-            enemy.dataset.maxX = px + 100 - enemyWidth;
-            enemy.dataset.direction = Math.random() < 0.5 ? 'left' : 'right';
+        const enemyX = px + 20;
+        const enemyY = py - 40;
 
-            enemies.push(enemy);
-            world.appendChild(enemy);
-            spawned++;
-        }
+        const enemy = document.createElement('div');
+        enemy.className = 'enemy';
+        enemy.innerText = '👾';
+        enemy.style.left = `${enemyX}px`;
+        enemy.style.top = `${enemyY}px`;
+
+        const enemyWidth = 30;
+        enemy.dataset.minX = px;
+        enemy.dataset.maxX = px + 100 - enemyWidth;
+        enemy.dataset.direction = Math.random() < 0.5 ? 'left' : 'right';
+
+        enemies.push(enemy);
+        world.appendChild(enemy);
     }
 }
 
-//update ennemies movement
+
+
+//Update Enemies movement
 function updateEnemies() {
     for (let enemy of enemies) {
         let x = parseFloat(enemy.style.left);
@@ -209,7 +246,7 @@ function updateEnemies() {
     }
 }
 
-//update player movement
+//Update Player movement
 function renderPlayer() {
     player.style.left = `${playerX}px`;
     player.style.top = `${playerY}px`;
@@ -235,6 +272,7 @@ function generatePlatforms(options) { //HELP ME!! 1 fucking day to create this f
     const maxSpacingX = 200;
     const maxSpacingY = 50;
 
+    //ADD World here !!
     const worldChoose = {
         'default': ['platform-rock', 'platform-dirt', 'platform-sky'],
         'ice': ['platform-dirtSnow', 'platform-snow', 'plateform-skyIce'],
@@ -268,7 +306,7 @@ function generatePlatforms(options) { //HELP ME!! 1 fucking day to create this f
             currentX += randomSpacingX();
         }
 
-        //platform-transition after every layer
+        //Platform-transition after every layer
         if (layerIndex < totalLayers - 1) {
             const nextLayerY = getLayerY(layerIndex + 0.5);
             const transitionY = (layerY + nextLayerY) / 2;
@@ -312,14 +350,14 @@ function game() {
 }
 
 
-//recive action (server -> controller)
+//Recive Action (server -> controller)
 socket.on('reloadGame', settings => {
     console.log('Settings :', settings);
     gameLoop = false;
     const emoji = settings.playerEmoji || '🐸';
     const controllerType = settings.controllerType || 'simple';
     const world = settings.worldSelection || 'default';
-    
+
     document.getElementById('player').textContent = emoji;
     Start(world);
     gameLoop = true;
@@ -376,13 +414,14 @@ function toggleHitboxes(enabled = true) {
 }
 
 
-//call function
+
+//Call function
 function Start(worldType) {
     generatePlatforms({
-        count: 25,
+        count: 2,
         worldType: worldType //savedWorldType
-        });
-    spawnEnemies(nbEnemies);
+    });
+    spawnEnemies(5);
 }
 
 Start();
