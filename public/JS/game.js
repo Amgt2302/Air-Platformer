@@ -64,7 +64,7 @@ function CheckPlayerCollisions() {
 
             let CheckPoint;
             let platRemove;
-            const slideSpeed = 2;
+            let slideSpeed = 0.3;
 
 
             switch (true) {
@@ -84,17 +84,30 @@ function CheckPlayerCollisions() {
                     }
                     break;
 
-                case plat.classList.contains('platform-lava') || plat.classList.contains('platform-dirt'):
-                    playerX += slideSpeed;
-                    console.log(`🧊 Slide...`);
-                    break;
+                case plat.classList.contains('platform-dirt') || plat.classList.contains('platform-snow'):
+
+                while (slideSpeed > 0.1){
+                    if (direction === 'right') playerX += slideSpeed;
+                    if (direction === 'left') playerX -= slideSpeed;
+                    slideSpeed -= 0.1;
+                    if (slideSpeed < 0.1) {
+                        slideSpeed = 0;
+                        console.log('Stop  !');
+                        playerX += null;
+                    }
+                    console.log(slideSpeed);
+                }
+                playerX += null;
+                
+                console.log(`🧊 Slide...`);
+                break;
 
                 case plat.classList.contains('platform-rock'):
                     platRemove = plat;
 
                     if (jumpCount >= 2) {
                         platRemove.remove();
-                        console.log(`❌ Remove : ${platRemove}`);
+                        //console.log(`Remove : ${platRemove}`);
                         platRemove = null;
                         jumpCount = 0;
                     }
@@ -372,6 +385,8 @@ socket.on('move', (dir) => {
         if (dir === 'down') playerY += moveSpeed;
         if (dir === 'left') playerX -= moveSpeed;
         if (dir === 'right') playerX += moveSpeed;
+        if (dir === 'left') direction = 'left';
+        if (dir === 'right') direction = 'right';
         else if (dir === 'home') {
             window.location.href = `/Air`;
         }
@@ -417,6 +432,8 @@ function toggleHitboxes(enabled = true) {
 
 //Call function
 function Start(worldType) {
+    playerX = 50;
+    playerY = 600;
     generatePlatforms({
         count: 2,
         worldType: worldType //savedWorldType
