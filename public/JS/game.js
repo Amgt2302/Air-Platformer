@@ -64,7 +64,7 @@ function CheckPlayerCollisions() {
 
             let CheckPoint;
             let platRemove;
-            let slideSpeed = 0.3;
+            let slideSpeed = 0.5;
 
 
             switch (true) {
@@ -85,21 +85,9 @@ function CheckPlayerCollisions() {
                     break;
 
                 case plat.classList.contains('platform-dirt') || plat.classList.contains('platform-snow'):
-
-                while (slideSpeed > 0.1){
                     if (direction === 'right') playerX += slideSpeed;
                     if (direction === 'left') playerX -= slideSpeed;
-                    slideSpeed -= 0.1;
-                    if (slideSpeed < 0.1) {
-                        slideSpeed = 0;
-                        console.log('Stop  !');
-                        playerX += null;
-                    }
-                    console.log(slideSpeed);
-                }
-                playerX += null;
-                
-                console.log(`🧊 Slide...`);
+                    //console.log(`🧊 Slide...`);
                 break;
 
                 case plat.classList.contains('platform-rock'):
